@@ -40,9 +40,25 @@ function renderCharacter(character) {
 	button.textContent = 'Add vote';
 	button.addEventListener('click', () => {
 		character.votes++;
+		updateCharacter(character);
 		p.textContent = `Votes: ${character.votes}`;
 	});
 	container.appendChild(button);
+}
+
+// Updating a single character
+function updateCharacter(character) {
+	fetch(`${BASE_URL}/${character.id}`, {
+		method: 'PATCH',
+		body: JSON.stringify(character),
+		headers: {
+			// this indicates that the content being sent or received is in JSON format
+			'Content-Type': 'application/json',
+		},
+	})
+		.then((res) => res.json())
+		.then((data) => console.log(data))
+		.catch((err) => console.log(err));
 }
 
 // Fetch all characters from the json server
