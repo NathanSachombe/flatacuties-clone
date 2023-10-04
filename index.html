@@ -6,34 +6,79 @@
 		<title>Flatacuties</title>
 
 		<link rel="stylesheet" href="./css/styles.css" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous"
+		/>
 
 		<script src="./js/index.js" defer></script>
 	</head>
 	<body>
-		<div class="container">
-			<form action="" id="character-form">
-				<input
-					type="text"
-					name="name"
-					id="name"
-					placeholder="character name"
-				/>
-				<input
-					type="text"
-					name="image"
-					id="image"
-					placeholder="character image"
-				/>
-				<input
-					type="number"
-					name="votes"
-					id="votes"
-					placeholder="vote count"
-				/>
-				<button type="submit">Add character</button>
+		<div class="container mt-10">
+			<h1 class="display-6">Flatacuties Code Challenge</h1>
+
+			<hr />
+
+			<form action="" id="character-form" class="row g-3">
+				<div class="col">
+					<label for="name" class="form-label">Name</label>
+					<input
+						type="text"
+						name="name"
+						id="name"
+						placeholder="Name"
+						class="form-control"
+						required
+					/>
+				</div>
+
+				<div class="col-6">
+					<label for="image" class="form-label">Image</label>
+					<input
+						type="text"
+						name="image"
+						id="image"
+						placeholder="Image"
+						class="form-control"
+						required
+					/>
+				</div>
+
+				<div class="col">
+					<label for="votes" class="form-label">Votes</label>
+					<input
+						type="number"
+						name="votes"
+						id="votes"
+						placeholder="Votes"
+						class="form-control"
+						required
+						min="0"
+					/>
+				</div>
+
+				<div class="col-auto">
+					<button type="submit" class="btn btn-primary">
+						Add character
+					</button>
+				</div>
 			</form>
-			<div class="characters"></div>
-			<div class="character-details"></div>
+
+			<hr />
+
+			<div class="row">
+				<div class="col list-group characters"></div>
+
+				<div class="col card character-details"></div>
+			</div>
 		</div>
+
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+			crossorigin="anonymous"
+		></script>
 	</body>
 </html>

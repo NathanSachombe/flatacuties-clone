@@ -15,6 +15,11 @@ function addCharacter() {
 		// prevent default form behaviour when submitting
 		e.preventDefault();
 
+		// get all values at ago
+		// const formData = new FormData(form);
+		// const data = Object.fromEntries(formData);
+		// console.log(data);
+
 		// get form values
 		const name = document.getElementById('name');
 		const image = document.getElementById('image');
@@ -59,8 +64,12 @@ function renderCharacters(characters) {
 
 	// iterate through each character and append to the dom
 	characters.forEach((character) => {
-		const characterName = document.createElement('h1');
+		const characterName = document.createElement('button');
 		characterName.textContent = character.name;
+		characterName.classList.add(
+			'list-group-item',
+			'list-group-item-action'
+		);
 		characterName.addEventListener('click', () => {
 			renderCharacter(character.id);
 		});
@@ -78,38 +87,64 @@ async function renderCharacter(id) {
 	// Clear character details div
 	container.innerHTML = '';
 
+	// Card header
+	const cardHeader = document.createElement('div');
+	cardHeader.textContent = character.name;
+	cardHeader.classList.add('card-header');
+	container.appendChild(cardHeader);
+
 	// create img tag to display character image
 	const img = document.createElement('img');
 	img.src = character.image;
 	img.alt = character.name;
+	img.style.height = '70%';
+	// img.height = 300;
+	// img.width = 460;
 	container.appendChild(img);
+
+	const cardBody = document.createElement('div');
+	cardBody.classList.add('card-body');
+	container.appendChild(cardBody);
+
+	// const title = document.createElement('h5');
+	// title.textContent = character.name;
+	// title.classList.add('card-title');
+	// cardBody.appendChild(title);
 
 	// create paragraph tag to display votes
 	const p = document.createElement('p');
 	p.textContent = `Votes: ${character.votes}`;
-	container.appendChild(p);
+	p.classList.add('card-text');
+	cardBody.appendChild(p);
 
 	// create a button to add character vote count
 	const button = document.createElement('button');
 	button.textContent = 'Add vote';
+	button.classList.add('btn', 'btn-primary');
 	button.addEventListener('click', () => {
 		character.votes++;
 		// persist vote count to db.json
 		updateCharacter(character);
 		p.textContent = `Votes: ${character.votes}`;
 	});
-	container.appendChild(button);
+	cardBody.appendChild(button);
 
 	// create button to reset character vote count
 	const resetButton = document.createElement('button');
 	resetButton.textContent = 'Reset votes';
+	resetButton.classList.add('btn', 'btn-warning');
 	resetButton.addEventListener('click', () => {
 		character.votes = 0;
 		// persist the reset vote count to db.json
 		updateCharacter(character);
 		p.textContent = `Votes: ${character.votes}`;
 	});
-	container.appendChild(resetButton);
+	cardBody.appendChild(resetButton);
+
+	const deleteButton = document.createElement('button');
+	deleteButton.textContent = 'Delete';
+	deleteButton.classList.add('btn', 'btn-danger');
+	cardBody.appendChild(deleteButton);
 }
 
 // Updating a single character
