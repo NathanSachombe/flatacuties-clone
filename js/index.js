@@ -13,7 +13,7 @@ function renderCharacters(characters) {
 		const characterName = document.createElement('h1');
 		characterName.textContent = character.name;
 		characterName.addEventListener('click', () => {
-			renderCharacter(character);
+			renderCharacter(character.id);
 		});
 
 		container.appendChild(characterName);
@@ -21,7 +21,9 @@ function renderCharacters(characters) {
 }
 
 // render single character
-function renderCharacter(character) {
+async function renderCharacter(id) {
+	const character = await getCharacter(id);
+
 	const container = document.querySelector('.character-details');
 
 	// Clear character details div
@@ -44,6 +46,15 @@ function renderCharacter(character) {
 		p.textContent = `Votes: ${character.votes}`;
 	});
 	container.appendChild(button);
+
+	const resetButton = document.createElement('button');
+	resetButton.textContent = 'Reset votes';
+	resetButton.addEventListener('click', () => {
+		character.votes = 0;
+		updateCharacter(character);
+		p.textContent = `Votes: ${character.votes}`;
+	});
+	container.appendChild(resetButton);
 }
 
 // Updating a single character
@@ -69,4 +80,15 @@ function getCharacters() {
 		.catch((err) => {
 			console.log(err);
 		});
+}
+
+// Get a single character
+async function getCharacter(id) {
+	try {
+		const res = await fetch(`${BASE_URL}/${id}`);
+
+		return res.json();
+	} catch (error) {
+		console.log(error);
+	}
 }
