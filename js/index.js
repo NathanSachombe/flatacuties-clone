@@ -3,11 +3,59 @@ const BASE_URL = 'http://localhost:4000/characters';
 // Ensure the dom is loaded before doing anything
 document.addEventListener('DOMContentLoaded', () => {
 	getCharacters();
+
+	addCharacter();
 });
+
+// handle adding a new character
+function addCharacter() {
+	const form = document.getElementById('character-form');
+
+	form.addEventListener('submit', (e) => {
+		// prevent default form behaviour when submitting
+		e.preventDefault();
+
+		// get form values
+		const name = document.getElementById('name');
+		const image = document.getElementById('image');
+		const votes = document.getElementById('votes');
+
+		// check if the values are not empty
+		if (!name.value || !image.value || !votes.value) {
+			return alert('Character details are required');
+		}
+
+		fetch(BASE_URL, {
+			method: 'POST',
+			body: JSON.stringify({
+				name: name.value,
+				image: image.value,
+				votes: votes.value,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((res) => res.json())
+			.then(() => {
+				// reset the form
+				name.value = '';
+				image.value = '';
+				votes.value = '';
+
+				// refetch all characters
+				getCharacters();
+			})
+			.catch((err) => console.log(err));
+	});
+}
 
 // Render fetched characters
 function renderCharacters(characters) {
 	const container = document.querySelector('.characters');
+
+	// clear the characters container
+	container.innerHTML = '';
 
 	// iterate through each character and append to the dom
 	characters.forEach((character) => {
